@@ -1,0 +1,69 @@
+<section fxLayout="row wrap" fxLayoutAlign="center center">
+    <mat-card fxFlex="500px" fxFlex.xs="100%">
+        <mat-card-title>{{title}}</mat-card-title>
+        <form [formGroup]="airportForm"
+              autocomplete="off"
+              novalidate
+              (ngSubmit)="submit()"
+              fxLayout="column wrap"
+              fxLayoutAlign="center center"
+              fxLayoutGap="10px">
+            <mat-card-content fxLayout="column">
+                <mat-form-field>
+                    <input matInput placeholder="Airport name" formControlName="name">
+                    <mat-error *ngIf="hasError('name', 'required')">
+                        Name is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <input matInput placeholder="City" formControlName="city">
+                    <mat-error *ngIf="hasError('city', 'required')">
+                        City is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-select placeholder="State" formControlName="state">
+                        <mat-option *ngFor="let state of states" [value]="state">{{state}}</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="hasError('state', 'required')">
+                        State is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <input matInput placeholder="Latitude" formControlName="latitude">
+                    <mat-error *ngIf="hasError('latitude', 'required')">
+                        Latitude is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <input matInput placeholder="Longitude" formControlName="longitude">
+                    <mat-error *ngIf="hasError('longitude', 'required')">
+                        Longitude is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <input matInput placeholder="ICAO" formControlName="icao">
+                    <mat-error *ngIf="hasError('icao', 'required')">
+                        ICAO is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <input matInput placeholder="IATA" formControlName="iata">
+                    <mat-error *ngIf="hasError('iata', 'required')">
+                        IATA is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+            </mat-card-content>
+            <mat-card-actions>
+                <button mat-raised-button color="primary" [disabled]="!airportForm.valid">Submit</button>
+                <button type="button" mat-raised-button color="warn" (click)="cancel()">Cancel</button>
+            </mat-card-actions>
+        </form>
+    </mat-card>
+</section>

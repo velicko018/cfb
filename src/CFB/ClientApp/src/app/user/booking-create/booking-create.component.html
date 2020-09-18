@@ -1,0 +1,48 @@
+<section fxLayout="row wrap" fxLayoutAlign="center center">
+  <mat-card fxFlex="500px" fxFlex.xs="100%">
+    <mat-card-title>Book a flight</mat-card-title>
+    <button type="button" fxLayoutAlign="end center" mat-raised-button color="accent" (click)="addPassanger()">New passanger</button>
+
+    <form [formGroup]="bookingCreateForm" autocomplete="off" novalidate (ngSubmit)="createBooking()"
+          fxLayout="column wrap"
+          fxLayoutAlign="center center"
+          fxLayoutGap="10px" *ngIf="showForm">
+      <mat-card-content formArrayName="passangers">
+        <div *ngFor="let passanger of passangers.controls;let passangerIndex=index" [formGroupName]="passangerIndex">
+          <mat-form-field>
+            <input matInput type="text" placeholder="Passanger firstName" formControlName="firstName">
+            <mat-error *ngIf="hasError('firstName', 'required', passangerIndex)">
+              Firstname is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field>
+            <input matInput type="text" placeholder="Passanger lastname" formControlName="lastName">
+            <mat-error *ngIf="hasError('lastName', 'required', passangerIndex)">
+              Lastname is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field>
+            <input matInput type="text" placeholder="Passanger phone number" formControlName="phoneNumber">
+            <mat-error *ngIf="hasError('phoneNumber', 'required', passangerIndex)">
+              Passanger phone number is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field>
+            <input matInput type="text" placeholder="Passanger passport number" formControlName="passportNumber">
+            <mat-error *ngIf="hasError('passportNumber', 'required', passangerIndex)">
+              Passanger passport number is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+          <mat-divider></mat-divider>
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="primary" [disabled]="!bookingCreateForm.valid">Create</button>
+        <button type="button" mat-raised-button color="warn" routerLink="/">Cancel</button>
+      </mat-card-actions>
+    </form>
+  </mat-card>
+</section>

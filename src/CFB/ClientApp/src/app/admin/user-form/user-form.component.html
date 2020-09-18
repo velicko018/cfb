@@ -1,0 +1,64 @@
+<section fxLayout="row wrap" fxLayoutAlign="center center">
+    <mat-card fxFlex="500px" fxFlex.xs="100%">
+        <mat-card-title>Edit user</mat-card-title>
+        <form [formGroup]="userForm"
+              fxLayout="column wrap"
+              fxLayoutAlign="center center"
+              fxLayoutGap="10px">
+            <mat-card-content>
+                <div fxLayout="column">
+                    <mat-form-field>
+                        <input matInput placeholder="Email" formControlName="email" required />
+                        <mat-error *ngIf="hasError('email', 'email') && !hasError('email', 'required')">
+                            Please enter a valid email address
+                        </mat-error>
+                        <mat-error *ngIf="hasError('email', 'required')">
+                            Email is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <input matInput placeholder="First name" formControlName="firstName" required />
+                        <mat-error *ngIf="hasError('firstName', 'required')">
+                            First name is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <input matInput placeholder="Last name" formControlName="lastName" required />
+                        <mat-error *ngIf="hasError('lastName', 'required')">
+                            Last name is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <input matInput placeholder="Address" formControlName="address" required />
+                        <mat-error *ngIf="hasError('address', 'required')">
+                            Address is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <input matInput placeholder="City" formControlName="city" required />
+                        <mat-error *ngIf="hasError('city', 'required')">
+                            City is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <input matInput placeholder="Zip" formControlName="zip" required />
+                        <mat-error *ngIf="hasError('zip', 'required')">
+                            Zip is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-spinner [style.display]="showSpinner ? 'block' : 'none'"></mat-spinner>
+                </div>
+            </mat-card-content>
+            <mat-card-actions>
+                <button mat-raised-button (click)="submit()" [disabled]="!userForm.valid" color="primary">Submit</button>
+                <button mat-raised-button (click)="cancel()" color="warn">Cancel</button>
+            </mat-card-actions>
+        </form>
+    </mat-card>
+</section>

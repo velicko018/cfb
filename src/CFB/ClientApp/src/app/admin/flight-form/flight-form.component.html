@@ -1,0 +1,80 @@
+<section fxLayout="row wrap" fxLayoutAlign="center center">
+    <mat-card fxFlex="500px" fxFlex.xs="100%">
+        <mat-card-title>{{title}}</mat-card-title>
+        <form [formGroup]="flightForm"
+              autocomplete="off"
+              novalidate
+              (ngSubmit)="submit()"
+              fxLayout="column wrap"
+              fxLayoutAlign="center center"
+              fxLayoutGap="10px">
+            <mat-card-content fxLayout="column">
+                <mat-form-field>
+                    <input matInput placeholder="Origin state" formControlName="stateFrom" *ngIf="flightId">
+                    <mat-select placeholder="State" formControlName="stateFrom" (selectionChange)="onStateChange($event)" *ngIf="!flightId">
+                        <mat-option *ngFor="let state of states" [value]="state">{{state}}</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="hasError('stateFrom', 'required')">
+                        State is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <input matInput placeholder="From airport" formControlName="from" *ngIf="flightId">
+                    <mat-select placeholder="From" formControlName="from" [errorStateMatcher]="sameValueMatcher" (selectionChange)="onAirportChange($event, true)" *ngIf="!flightId">
+                        <mat-option *ngFor="let fromAirport of fromAirports" [value]="fromAirport.id">{{fromAirport.name}} - {{fromAirport.city}} ({{fromAirport.icao}})</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="hasError('from', 'required')">
+                        From is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <input matInput placeholder="Destination state" formControlName="stateTo" *ngIf="flightId">
+                    <mat-select placeholder="State to" formControlName="stateTo" (selectionChange)="onStateChange($event, false)" *ngIf="!flightId">
+                        <mat-option *ngFor="let state of states" [value]="state">{{state}}</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="hasError('stateTo', 'required')">
+                        State is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <input matInput placeholder="To airport" formControlName="to" *ngIf="flightId">
+                    <mat-select placeholder="To" formControlName="to" [errorStateMatcher]="sameValueMatcher" (selectionChange)="onAirportChange($event, false)" *ngIf="!flightId">
+                        <mat-option *ngFor="let toAirport of toAirports" [value]="toAirport.id">{{toAirport.name}} - {{toAirport.city}} ({{toAirport.icao}})</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="hasError('to', 'required')">
+                        Destination is <strong>required</strong>
+                    </mat-error>
+                    <mat-error *ngIf="flightForm.hasError('valuesAreSame')">
+                        Origin and destination could not be the same.
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <input matInput [matDatepicker]="departurePicker" placeholder="Departure"
+                           formControlName="departure" (click)="departurePicker.open()">
+                    <mat-datepicker-toggle matSuffix [for]="departurePicker"></mat-datepicker-toggle>
+                    <mat-datepicker #departurePicker></mat-datepicker>
+                    <mat-error *ngIf="hasError('departure', 'required')">
+                        The departure date is required.
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <input matInput placeholder="Duration"
+                           formControlName="duration">
+                    <mat-error *ngIf="hasError('duration', 'required')">
+                        The duration time is required.
+                    </mat-error>
+                </mat-form-field>
+            </mat-card-content>
+
+            <mat-card-actions>
+                <button mat-raised-button color="primary" [disabled]="!flightForm.valid">Submit</button>
+                <button type="button" mat-raised-button color="warn" (click)="cancel()">Cancel</button>
+            </mat-card-actions>
+        </form>
+    </mat-card>
+</section>

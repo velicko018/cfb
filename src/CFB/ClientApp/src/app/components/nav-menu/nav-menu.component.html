@@ -1,0 +1,69 @@
+<mat-toolbar color="primary">
+    <div fxLayoutAlign="start center">
+        <button mat-icon-button (click)="sidenav.toggle()" *ngIf="currentUser && isAdmin">
+            <mat-icon>menu</mat-icon>
+        </button>
+        <a [routerLink]='["/"]' fxLayoutAlign="start center" >
+            <img src="/favicon.svg" alt="CFB" class="logo" />
+            <div class="logo-text">
+                <p>Cosmos</p>
+                <p>Flight Booking</p>
+            </div>
+        </a>
+    </div>
+    <mat-nav-list fxFlex fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="15px">
+        <a mat-button routerLink="login" routerLinkActive="active" *ngIf="!currentUser" fxHide.xs>
+            Login
+        </a>
+        <a mat-button color="secondary" routerLink="register" routerLinkActive="active" *ngIf="!currentUser" fxHide.xs>
+            Register
+        </a>
+        <button mat-icon-button [matMenuTriggerFor]="authMenu" *ngIf="currentUser && !isAdmin">
+            <mat-icon>person_outline</mat-icon>
+        </button>
+        <mat-menu #authMenu="matMenu">
+            <button mat-menu-item routerLink="my-bookings">
+                <mat-icon mat-list-icon>calendar_today</mat-icon>
+                <span>My bookings</span>
+            </button>
+            <button mat-menu-item (click)="logout()">
+                <mat-icon>exit_to_app</mat-icon>
+                <span>Log out</span>
+            </button>
+        </mat-menu>
+    </mat-nav-list>
+</mat-toolbar>
+<mat-sidenav-container fxFlexFill>
+    <mat-sidenav #sidenav (click)="sidenav.toggle()">
+        <mat-nav-list *ngIf="isAdmin">
+            <a mat-list-item routerLink="users" routerLinkActive="active">
+                <mat-icon mat-list-icon>emoji_people</mat-icon>
+                <span>Users</span>
+            </a>
+            <a mat-list-item routerLink="bookings" routerLinkActive="active">
+                <mat-icon mat-list-icon>calendar_today</mat-icon>
+                <span>Bookings</span>
+            </a>
+            <a mat-list-item routerLink="airports" routerLinkActive="active">
+                <mat-icon mat-list-icon>local_airport</mat-icon>
+                <span>Airports</span>
+            </a>
+            <a mat-list-item routerLink="flights" routerLinkActive="active">
+                <mat-icon mat-list-icon>flight_takeoff</mat-icon>
+                <span>Flights</span>
+            </a>
+            <a matLine mat-list-item routerLink='logs' routerLinkActive="active">
+                <mat-icon mat-list-icon>speaker_notes</mat-icon>
+                <span>Logs</span>
+            </a>
+            <mat-divider></mat-divider>
+            <button mat-list-item (click)="logout()">
+                <mat-icon mat-list-icon>exit_to_app</mat-icon>
+                <span>Log out</span>
+            </button>
+        </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <router-outlet></router-outlet>
+    </mat-sidenav-content>
+</mat-sidenav-container>

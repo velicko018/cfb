@@ -1,0 +1,67 @@
+<section class="users-container" fxLayoutAlign="center center">
+    <mat-card class="mat-elevation-z8" fxLayout="column" fxFlex="80">
+        <mat-card-title>Users</mat-card-title>
+        <mat-progress-bar mode="indeterminate" *ngIf="isLoadingResults"></mat-progress-bar>
+        <mat-table [dataSource]="dataSource" class="users-table" fxLayoutGap="20"
+                   matSort matSortActive="name" matSormat-cellisableClear matSormat-cellirection="desc">
+
+            <ng-container matColumnDef="id">
+                <mat-header-cell *matHeaderCellDef>Id</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{row.id}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="username">
+                <mat-header-cell *matHeaderCellDef>Username</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{row.userName}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="email">
+                <mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                    Email
+                </mat-header-cell>
+                <mat-cell *matCellDef="let row">{{row.email}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="firstName">
+                <mat-header-cell *matHeaderCellDef>First name</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{row.firstName}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="lastName">
+                <mat-header-cell *matHeaderCellDef>Last name</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{row.lastName}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="address">
+                <mat-header-cell *matHeaderCellDef>Address</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{row.address}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="city">
+                <mat-header-cell *matHeaderCellDef>City</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{row.city}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="zip">
+                <mat-header-cell *matHeaderCellDef>Zip code</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{row.zip}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+                <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                    <button mat-icon-button color="warn" (click)="deleteUser(row.id, row.userName)">
+                        <mat-icon class="mat-18">delete</mat-icon>
+                    </button>
+                    <button mat-icon-button color="ancent" [routerLink]="[row.id, 'edit']">
+                        <mat-icon class="mat-18">edit</mat-icon>
+                    </button>
+                </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+        <mat-paginator [length]="resultsLength" [pageSize]="10"></mat-paginator>
+    </mat-card>
+</section>

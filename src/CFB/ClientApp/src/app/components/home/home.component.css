@@ -1,0 +1,22 @@
+
+
+.journays-container {
+    padding: 40px;
+    min-width: 70%;
+}
+
+mat-card {
+    margin-bottom: 20px;
+}
+main > mat-card > form > mat-card-actions {
+    padding: 0 20px;
+}
+
+.journay-item {
+    width: 100%;
+}
+
+.journay-details > div > p {
+    text-align: center;
+    border-right: 1px solid;
+}

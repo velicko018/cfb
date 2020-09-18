@@ -1,0 +1,54 @@
+<section fxLayoutAlign="center center">
+    <mat-card class="mat-elevation-z8" fxLayout="column" fxFlex="80">
+        <mat-card-title>Flights</mat-card-title>
+        <mat-card-actions fxLayoutAlign="end center">
+            <a [routerLink]="['/flights/create']" mat-button color="primary">Create</a>
+        </mat-card-actions>
+        <mat-progress-bar mode="indeterminate" *ngIf="isLoadingResults"></mat-progress-bar>
+        <mat-table [dataSource]="dataSource"
+                   matSort
+                   matSortActive="name"
+                   matSortDisableClear
+                   matSortDirection="desc">
+
+            <ng-container matColumnDef="from">
+                <mat-header-cell *matHeaderCellDef>From</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{row.originAirportInfo}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="to">
+                <mat-header-cell *matHeaderCellDef>To</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{row.destinationAirportInfo}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="departure">
+                <mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Departure</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{row.departure | date}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="duration">
+                <mat-header-cell *matHeaderCellDef>Duration</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{row.duration}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+                <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+                <mat-cell mat-cell *matCellDef="let row">
+                    <button mat-icon-button color="red" [routerLink]="['/bookings/create', row.id]">
+                        <mat-icon class="mat-18">book</mat-icon>
+                    </button>
+                    <button mat-icon-button color="warn" (click)="deleteFlight(row.id, row.originAirportInfo, row.destinationAirportInfo)">
+                        <mat-icon class="mat-18">delete</mat-icon>
+                    </button>
+                    <button mat-icon-button color="ancent" [routerLink]="[row.id, 'edit']">
+                        <mat-icon class="mat-18">edit</mat-icon>
+                    </button>
+                </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+        <mat-paginator [length]="resultsLength" [pageSize]="10"></mat-paginator>
+    </mat-card>
+</section>

@@ -1,0 +1,35 @@
+<section fxLayoutAlign="center center">
+    <mat-card class="mat-elevation-z8" fxLayout="column" fxFlex="80">
+        <mat-card-title>Logs</mat-card-title>
+        <mat-progress-bar mode="indeterminate" *ngIf="isLoadingResults || isRateLimitReached"></mat-progress-bar>
+
+        <mat-table [dataSource]="dataSource"
+                   matSort
+                   matSortActive="createdAt"
+                   matSortDisableClear
+                   matSortDirection="desc">
+
+            <ng-container matColumnDef="id">
+                <mat-header-cell *matHeaderCellDef>Id</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{row.id}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="message">
+                <mat-header-cell *matHeaderCellDef>Message</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{row.message | slice:0:200}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="createdAt">
+                <mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                    Created at
+                </mat-header-cell>
+                <mat-cell *matCellDef="let row">{{row.createdAt | date:'medium'}}</mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+
+        <mat-paginator [length]="resultsLength" [pageSize]="10"></mat-paginator>
+    </mat-card>
+</section>        

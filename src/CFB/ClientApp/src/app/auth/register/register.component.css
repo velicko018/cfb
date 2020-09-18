@@ -1,0 +1,7 @@
+mat-card-content > form {
+    margin: 0 16px;
+}
+
+mat-card-actions {
+    padding: 22px;
+}

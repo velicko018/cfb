@@ -1,0 +1,162 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+    <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
+    <IsPackable>false</IsPackable>
+    <SpaRoot>ClientApp\</SpaRoot>
+    <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
+
+    <!-- Set this to true if you enable server-side prerendering -->
+    <BuildServerSideRenderer>false</BuildServerSideRenderer>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Gremlin.Net" Version="3.4.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.SpaServices" Version="3.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Cosmos" Version="3.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="5.1.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="5.1.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="5.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Don't publish the SPA source files, but do show them in the project files list -->
+    <Content Remove="$(SpaRoot)**" />
+    <None Remove="$(SpaRoot)**" />
+    <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="ClientApp\src\app\auth\auth-routing.module.ts" />
+    <None Remove="ClientApp\src\app\auth\auth.module.ts" />
+    <None Remove="ClientApp\src\app\admin\admin-routing.module.ts" />
+    <None Remove="ClientApp\src\app\admin\admin.module.ts" />
+    <None Remove="ClientApp\src\app\admin\user-form\user-form.component.ts" />
+    <None Remove="ClientApp\src\app\auth\login\login.component.ts" />
+    <None Remove="ClientApp\src\app\core\core.module.ts" />
+    <None Remove="ClientApp\src\app\core\models\airport.ts" />
+    <None Remove="ClientApp\src\app\core\models\flight.ts" />
+    <None Remove="ClientApp\src\app\core\models\index.ts" />
+    <None Remove="ClientApp\src\app\core\models\journay.ts" />
+    <None Remove="ClientApp\src\app\core\models\log.ts" />
+    <None Remove="ClientApp\src\app\core\models\paginated-airports.ts" />
+    <None Remove="ClientApp\src\app\core\models\paginated-flights.ts" />
+    <None Remove="ClientApp\src\app\core\models\update-flight.ts" />
+    <None Remove="ClientApp\src\app\core\models\user.ts" />
+    <None Remove="ClientApp\src\app\core\services\index.ts" />
+    <None Remove="ClientApp\src\app\user\user-routing.module.ts" />
+    <None Remove="ClientApp\src\app\user\user.module.ts" />
+    <None Remove="ClientApp\src\app\material.module.ts" />
+    <None Remove="ClientApp\src\app\auth\register\register.component.ts" />
+    <None Remove="ClientApp\src\app\core\models\role.ts" />
+    <None Remove="ClientApp\src\app\core\services\airport.service.ts" />
+    <None Remove="ClientApp\src\app\shared\shared.module.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CFB.Application\CFB.Application.csproj" />
+    <ProjectReference Include="..\CFB.Common\CFB.Common.csproj" />
+    <ProjectReference Include="..\CFB.Infrastructure\CFB.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\auth\auth.module.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\auth\auth-routing.module.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\admin\user-form\user-form.component.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="ClientApp\src\app\auth\login\login.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\admin\admin-routing.module.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="ClientApp\src\app\admin\admin.module.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="ClientApp\src\app\core\core.module.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\core\models\airport.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\core\models\flight.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\core\models\index.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\core\models\journay.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\core\models\log.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\core\models\paginated-airports.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="ClientApp\src\app\core\models\paginated-flights.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\core\models\update-flight.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\core\models\user.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\core\services\index.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\user\user-routing.module.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="ClientApp\src\app\user\user.module.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="ClientApp\src\app\shared\material.module.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\auth\register\register.component.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="ClientApp\src\app\core\models\role.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\core\services\airport.service.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\shared\shared.module.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="ClientApp\src\app\shared\guards\auth.guard.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\shared\services\notification.service.ts" />
+  </ItemGroup>
+
+  <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
+    <!-- Ensure Node.js is installed -->
+    <Exec Command="node --version" ContinueOnError="true">
+      <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
+    </Exec>
+    <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and then restart your command prompt or IDE." />
+    <Message Importance="high" Text="Restoring dependencies using 'npm'. This may take several minutes..." />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
+  </Target>
+
+  <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
+    <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build -- --prod" />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build:ssr -- --prod" Condition=" '$(BuildServerSideRenderer)' == 'true' " />
+
+    <!-- Include the newly-built files in the publish output -->
+    <ItemGroup>
+      <DistFiles Include="$(SpaRoot)dist\**; $(SpaRoot)dist-server\**" />
+      <DistFiles Include="$(SpaRoot)node_modules\**" Condition="'$(BuildServerSideRenderer)' == 'true'" />
+      <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+        <RelativePath>%(DistFiles.Identity)</RelativePath>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </ResolvedFileToPublish>
+    </ItemGroup>
+  </Target>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <TypeScriptTarget>ES6</TypeScriptTarget>
+    <TypeScriptJSXEmit>React</TypeScriptJSXEmit>
+    <TypeScriptModuleKind>ES6</TypeScriptModuleKind>
+    <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
+    <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
+    <TypeScriptRemoveComments>False</TypeScriptRemoveComments>
+    <TypeScriptOutFile />
+    <TypeScriptOutDir />
+    <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
+    <TypeScriptNoEmitOnError>True</TypeScriptNoEmitOnError>
+    <TypeScriptSourceMap>False</TypeScriptSourceMap>
+    <TypeScriptMapRoot />
+    <TypeScriptSourceRoot />
+  </PropertyGroup>
+
+</Project>

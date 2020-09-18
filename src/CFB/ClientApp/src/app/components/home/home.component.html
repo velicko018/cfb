@@ -1,0 +1,91 @@
+<main class="home-container" fxLayout="column" fxLayoutAlign="center center">
+    <mat-card fxLayout="column" fxFlex="70">
+        <form [formGroup]="searchForm" (ngSubmit)="search()">
+            <mat-card-content fxLayoutGap="20px">
+                <mat-form-field>
+                    <mat-select placeholder="State" formControlName="stateFrom" (selectionChange)="onStateChange($event)">
+                        <mat-option *ngFor="let state of states" [value]="state">{{state}}</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="hasError('stateFrom', 'required')">
+                        State is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-select placeholder="From" formControlName="from" [errorStateMatcher]="sameValueMatcher">
+                        <mat-option *ngFor="let fromAirport of fromAirports" [value]="fromAirport.id">{{fromAirport.name}} - {{fromAirport.city}} ({{fromAirport.icao}})</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="hasError('from', 'required')">
+                        From is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-select placeholder="State to" formControlName="stateTo" (selectionChange)="onStateChange($event, false)">
+                        <mat-option *ngFor="let state of states" [value]="state">{{state}}</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="hasError('stateTo', 'required')">
+                        State is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-select placeholder="To" formControlName="to" [errorStateMatcher]="sameValueMatcher">
+                        <mat-option *ngFor="let toAirport of toAirports" [value]="toAirport.id">{{toAirport.name}} - {{toAirport.city}} ({{toAirport.icao}})</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="hasError('to', 'required')">
+                        Destination is <strong>required</strong>
+                    </mat-error>
+                    <mat-error *ngIf="searchForm.hasError('valuesAreSame')">
+                        Origin and destination could not be the same
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <input matInput [matDatepicker]="departurePicker" placeholder="Departure"
+                           formControlName="departure" (click)="departurePicker.open()">
+                    <mat-datepicker-toggle matSuffix [for]="departurePicker"></mat-datepicker-toggle>
+                    <mat-datepicker #departurePicker></mat-datepicker>
+                    <mat-error *ngIf="hasError('departure', 'required')">
+                        The departure date is required.
+                    </mat-error>
+                </mat-form-field>
+            </mat-card-content>
+            <mat-card-actions fxLayoutAlign="end">
+                <button mat-raised-button color="primary" [disabled]="!searchForm.valid">Search</button>
+            </mat-card-actions>
+        </form>
+    </mat-card>
+    <mat-progress-bar fxLayout="column" fxFlex="70" mode="indeterminate" *ngIf="!showProgressBar"></mat-progress-bar>
+    <section fxFlex="100"
+             fxLayout="column"
+             fxLayoutAlign="center center"
+             class="journays-container">
+
+        <mat-card class="journay-item"
+                  fxLayoutGap="20px"
+                  fxFlex="100%"                  
+                  *ngFor="let flights of journays">
+
+            <mat-card-content>
+                <section fxFlex="80" class="journay-details">
+                    <div *ngFor="let flight of flights" fxLayout="row" fxLayoutAlign="center center">
+                        <span fxFlex="50" fxLayoutGap="20px">
+                            {{flight.originAirportInfo.split(' - ')[1]}}
+                            <i class="material-icons" style="vertical-align:middle;">
+                                arrow_right_alt
+                            </i>
+                            {{flight.destinationAirportInfo.split(' - ')[1]}}
+                        </span>
+                        <p fxFlex="20" fxLayoutGap="20px">{{flight.departure | date}}</p>
+                        <p fxFlex="20" fxLayoutGap="20px">{{flight.duration}}</p>
+                    </div>
+                </section>
+
+                <mat-card-actions fxFlex="20" fxLayoutAlign="center center" class="journay-actions" *ngIf="!isAdmin">
+                    <button mat-flat-button color="primary" (click)="bookJournay(flights)">Book</button>
+                </mat-card-actions>
+            </mat-card-content>
+        </mat-card>
+    </section>
+</main>

@@ -1,0 +1,9 @@
+<h2 mat-dialog-title>{{dialogData.title}}</h2>
+<mat-dialog-content class="mat-typography">
+  <h3>Are you sure?</h3>
+  <mat-progress-bar mode="indeterminate" *ngIf="showLoader"></mat-progress-bar>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button (click)="onYesClick()" [disabled]="showLoader" color="accent">Yes</button>
+    <button mat-button mat-dialog-close>No</button>
+</mat-dialog-actions>

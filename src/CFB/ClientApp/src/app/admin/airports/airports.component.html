@@ -1,0 +1,66 @@
+<section fxLayoutAlign="center center">
+    <mat-card class="mat-elevation-z8" fxLayout="column" fxFlex="80">
+        <mat-card-title>Airports</mat-card-title>
+        <mat-card-actions fxLayoutAlign="end center">
+            <a [routerLink]="['/airports/create']" mat-button color="primary">Create</a>
+        </mat-card-actions>
+        <mat-progress-bar mode="indeterminate" *ngIf="isLoadingResults"></mat-progress-bar>
+        <mat-table [dataSource]="dataSource"
+                   matSort
+                   matSortActive="state"
+                   matSortDisableClear
+                   matSortDirection="desc">
+
+            <ng-container matColumnDef="name">
+                <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{row.name}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="city">
+                <mat-header-cell *matHeaderCellDef>City</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{row.city}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="state">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>State</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{row.state}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="icao">
+                <mat-header-cell *matHeaderCellDef>ICAO</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{row.icao}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="iata">
+                <mat-header-cell *matHeaderCellDef>IATA</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{row.iata}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="longitude">
+                <mat-header-cell *matHeaderCellDef>Longitude</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{row.longitude}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="latitude">
+                <mat-header-cell *matHeaderCellDef>Latitude</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{row.latitude}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+                <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                    <button mat-icon-button color="warn" (click)="deleteAirport(row.id, row.name)">
+                        <mat-icon class="mat-18">delete</mat-icon>
+                    </button>
+                    <button mat-icon-button color="ancent" [routerLink]="[row.id, 'edit']">
+                        <mat-icon class="mat-18">edit</mat-icon>
+                    </button>
+                </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+        <mat-paginator [length]="resultsLength" [pageSize]="10"></mat-paginator>
+    </mat-card>
+</section>

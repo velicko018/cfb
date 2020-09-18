@@ -1,0 +1,255 @@
+html,
+body {
+	height: 100%;
+}
+body {
+	margin: 0;
+	font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.error {
+	background-color: #c8171f !important;
+}
+
+.success {
+	background-color: #28b463 !important;
+}
+
+.mat-flat-button.mat-warn,
+.mat-raised-button.mat-warn,
+.mat-fab.mat-warn,
+.mat-mini-fab.mat-warn,
+.mat-flat-button.mat-primary,
+.mat-raised-button.mat-primary,
+.mat-fab.mat-primary,
+.mat-mini-fab.mat-primary,
+.mat-calendar-body-selected {
+	color: white;
+}
+
+app-user-form > section > mat-card,
+app-flight-form > section > mat-card,
+app-airport-form > section > mat-card {
+	mat-card-title {
+		margin-top: 16px !important;
+		text-align: center;
+	}
+
+	form > mat-card-content {
+		mat-form-field {
+			width: 400px;
+		}
+	}
+}
+
+.app-loading {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+
+	.spinner {
+		height: 200px;
+		width: 200px;
+		animation: rotate 2s linear infinite;
+		transform-origin: center center;
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		margin: auto;
+
+		.path {
+			stroke-dasharray: 1, 200;
+			stroke-dashoffset: 0;
+			animation: dash 1.5s ease-in-out infinite;
+			stroke-linecap: round;
+			stroke: #ff0000;
+		}
+	}
+}
+
+@keyframes rotate {
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+@keyframes dash {
+	0% {
+		stroke-dasharray: 1, 200;
+		stroke-dashoffset: 0;
+	}
+
+	50% {
+		stroke-dasharray: 89, 200;
+		stroke-dashoffset: -35px;
+	}
+
+	100% {
+		stroke-dasharray: 89, 200;
+		stroke-dashoffset: -124px;
+	}
+}
+
+@import "~@angular/material/theming";
+@include mat-core();
+
+/* ======== CFB themes ======== */
+
+$cfb-blue: (
+	50: #e0e6ea,
+	100: #b3c2ca,
+	200: #8099a6,
+	300: #4d7082,
+	400: #265168,
+	500: #00324d,
+	600: #002d46,
+	700: #00263d,
+	800: #001f34,
+	900: #001325,
+	A100: #609eff,
+	A200: #2d7fff,
+	A400: #0061f9,
+	A700: #0057e0,
+	contrast: (
+		50: #000000,
+		100: #000000,
+		200: #000000,
+		300: #ffffff,
+		400: #ffffff,
+		500: #ffffff,
+		600: #ffffff,
+		700: #ffffff,
+		800: #ffffff,
+		900: #ffffff,
+		A100: #000000,
+		A200: #ffffff,
+		A400: #ffffff,
+		A700: #ffffff
+	)
+);
+$cfb-green: (
+	50: #e5f4f3,
+	100: #bee4e1,
+	200: #93d3cd,
+	300: #67c1b8,
+	400: #47b3a9,
+	500: #26a69a,
+	600: #229e92,
+	700: #1c9588,
+	800: #178b7e,
+	900: #0d7b6c,
+	A100: #80ffd4,
+	A200: #43ffc0,
+	A400: #29ffb7,
+	A700: #1affb2,
+	contrast: (
+		50: #000000,
+		100: #000000,
+		200: #000000,
+		300: #000000,
+		400: #000000,
+		500: #ffffff,
+		600: #ffffff,
+		700: #ffffff,
+		800: #ffffff,
+		900: #ffffff,
+		A100: #000000,
+		A200: #000000,
+		A400: #000000,
+		A700: #000000
+	)
+);
+$cfb-red: (
+	50: #f8e3e4,
+	100: #efb9bc,
+	200: #e48b8f,
+	300: #d95d62,
+	400: #d03a41,
+	500: #c8171f,
+	600: #c2141b,
+	700: #bb1117,
+	800: #b40d12,
+	900: #a7070a,
+	A100: #ff8fa4,
+	A200: #ff5273,
+	A400: #ff385e,
+	A700: #ff2952,
+	contrast: (
+		50: #000000,
+		100: #000000,
+		200: #000000,
+		300: #000000,
+		400: #ffffff,
+		500: #ffffff,
+		600: #ffffff,
+		700: #ffffff,
+		800: #ffffff,
+		900: #ffffff,
+		A100: #000000,
+		A200: #000000,
+		A400: #ffffff,
+		A700: #ffffff
+	)
+);
+
+$cfb-theme-background: (
+	status-bar: map_get($mat-grey, 300),
+	app-bar: map_get($mat-grey, 100),
+	background: #729ca8,
+	hover: rgba(black, 0.04),
+	card: white,
+	dialog: white,
+	disabled-button: rgba(black, 0.12),
+	raised-button: white,
+	focused-button: $light-focused,
+	selected-button: map_get($mat-grey, 300),
+	selected-disabled-button: map_get($mat-grey, 400),
+	disabled-button-toggle: map_get($mat-grey, 200),
+	unselected-chip: map_get($mat-grey, 300),
+	disabled-list-option: map_get($mat-grey, 200)
+);
+
+$cfb-theme-foreground: (
+	base: black,
+	divider: $dark-dividers,
+	dividers: $dark-dividers,
+	disabled: $dark-disabled-text,
+	disabled-button: rgba(black, 0.26),
+	disabled-text: $dark-disabled-text,
+	hint-text: $dark-disabled-text,
+	secondary-text: $dark-secondary-text,
+	icon: rgba(black, 0.54),
+	icons: rgba(black, 0.54),
+	text: rgba(black, 0.87),
+	slider-min: rgba(black, 0.87),
+	slider-off: rgba(black, 0.26),
+	slider-off-active: rgba(black, 0.38)
+);
+
+@function create-cfb-theme($primary, $accent, $warn) {
+	@return (
+		primary: $primary,
+		accent: $accent,
+		warn: $warn,
+		is-dark: false,
+		foreground: $cfb-theme-foreground,
+		background: $cfb-theme-background
+	);
+}
+
+$cfb-app-primary: mat-palette($cfb-blue, 900);
+$cfb-app-accent: mat-palette($cfb-green, 900);
+$cfb-app-warn: mat-palette($cfb-red, 500);
+
+$cfb-app-theme: create-cfb-theme(
+    mat-palette($cfb-blue, 900),
+    mat-palette($cfb-green, 900),
+    mat-palette($cfb-red, 500)
+);
+
+@include angular-material-theme($cfb-app-theme);

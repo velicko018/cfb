@@ -1,0 +1,26 @@
+mat-sidenav {
+    width: 220px;
+}
+
+mat-sidenav-content {
+    background-image: url("/stars.png");
+    padding: 30px;
+}
+
+a.mat-button, button.mat-icon-button {
+    color: white;
+}
+
+.logo-text {
+    color: white;
+    margin-left: 10px;
+    font-size: initial;
+}
+
+.logo-text > p {
+    text-decoration: underline #00324d;
+}
+
+.logo-text > p:nth-child(1) {
+    margin-bottom: -30px;
+}
