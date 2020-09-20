@@ -5,8 +5,7 @@
 
 # CFB - Cosmos Flight Booking
 
-This is the practical part of the final exam. The purpose o
-f this project is to demonstrate the usage of Cosmos DB with different APIs.
+This is the practical part of the final exam. The purpose of this project is to demonstrate the usage of Cosmos DB with different APIs.
 
 
 ## About CFB
