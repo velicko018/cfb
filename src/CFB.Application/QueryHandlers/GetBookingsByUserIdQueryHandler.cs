@@ -1,5 +1,4 @@
-﻿using CFB.Application.CommandHandlers;
-using CFB.Common.DTOs;
+﻿using CFB.Common.DTOs;
 using CFB.Common.Utilities;
 using CFB.Domain.Queries;
 using CFB.Infrastructure.Persistence.CosmosGremlinClient;

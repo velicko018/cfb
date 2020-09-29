@@ -50,6 +50,16 @@
                         The departure date is required.
                     </mat-error>
                 </mat-form-field>
+
+                <mat-form-field>
+                    <mat-select placeholder="Number of stops" formControlName="numberOfStops">
+                        <mat-option [value]="-1">Any</mat-option>
+                        <mat-option [value]="0">Nonstop (direct)</mat-option>
+                        <mat-option [value]="1">Up to 1 stop</mat-option>
+                        <mat-option [value]="2">Up to 2 stops</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
             </mat-card-content>
             <mat-card-actions fxLayoutAlign="end">
                 <button mat-raised-button color="primary" [disabled]="!searchForm.valid">Search</button>

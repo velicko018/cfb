@@ -56,19 +56,16 @@
                     <input matInput [matDatepicker]="departurePicker" placeholder="Departure"
                            formControlName="departure" (click)="departurePicker.open()">
                     <mat-datepicker-toggle matSuffix [for]="departurePicker"></mat-datepicker-toggle>
-                    <mat-datepicker #departurePicker></mat-datepicker>
+                    <mat-datepicker touchUi="true" #departurePicker></mat-datepicker>
                     <mat-error *ngIf="hasError('departure', 'required')">
                         The departure date is required.
                     </mat-error>
                 </mat-form-field>
 
-                <mat-form-field>
-                    <input matInput placeholder="Duration"
-                           formControlName="duration">
-                    <mat-error *ngIf="hasError('duration', 'required')">
-                        The duration time is required.
-                    </mat-error>
-                </mat-form-field>
+                <span>Departure time</span><mat-slider thumbLabel [displayWith]="formatTime" formControlName="departureTime" step="0.25" min="1" max="24"></mat-slider>
+                <span>Flight time</span><mat-slider matSlider thumbLabel [displayWith]="formatTime" formControlName="duration" step="0.25" min="1" max="24"></mat-slider>
+                
+
             </mat-card-content>
 
             <mat-card-actions>

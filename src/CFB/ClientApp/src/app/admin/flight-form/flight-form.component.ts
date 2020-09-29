@@ -1,5 +1,5 @@
-import { Component, AfterViewInit, ViewChild, OnInit } from '@angular/core';
-import { MatPaginator, MatSort, ErrorStateMatcher } from '@angular/material';
+import { Component, OnInit } from '@angular/core';
+import { ErrorStateMatcher } from '@angular/material';
 import { FormGroup, FormControl, Validators, FormGroupDirective, NgForm } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -45,11 +45,8 @@ export class FlightFormComponent implements OnInit {
             from: new FormControl('', Validators.required),
             to: new FormControl('', Validators.required),
             departure: new FormControl('', Validators.required),
-            duration: new FormControl('', Validators.compose([
-                Validators.required,
-                Validators.minLength(5),
-                Validators.maxLength(5),
-                Validators.pattern('([01]?[0-9]|2[0-3]):[0-5][0-9]')]))
+            duration: new FormControl(1),
+            departureTime: new FormControl(1)
         }, { validators: SameValueValidator });
 
         if (this.flightId) {
@@ -57,16 +54,19 @@ export class FlightFormComponent implements OnInit {
                 .subscribe(data => {
                     let originAirportInfo = data.originAirportInfo.split(' - ');
                     let destinationAirportInfo = data.destinationAirportInfo.split(' - ');
-                    let test = {
+                    let departureDateTime = new Date(data.departure);
+                    let departureTimeString = `${departureDateTime.getUTCHours()}:${departureDateTime.getUTCMinutes()}`;
+                    let flightData = {
                         stateFrom: originAirportInfo[1].match(/^([^(]*)/)[0].trim(),
                         stateTo: destinationAirportInfo[1].match(/^([^(]*)/)[0].trim(),
                         from: originAirportInfo[0],
                         to: destinationAirportInfo[0],
-                        departure: new Date(data.departure),
-                        duration: `${data.duration.slice(0, 5)}`
-                    }
-
-                    this.flightForm.patchValue(test);
+                        departure: departureDateTime,
+                        departureTime: this.stringToTime(departureTimeString),
+                        duration: this.stringToTime(data.duration)
+                    };
+                    
+                    this.flightForm.patchValue(flightData);
                     this.flightForm.controls.from.disable();
                     this.flightForm.controls.to.disable();
                     this.flightForm.controls.stateFrom.disable();
@@ -78,20 +78,40 @@ export class FlightFormComponent implements OnInit {
     submit() {
         if (this.flightForm.valid) {
             if (this.flightId) {
-                let data = {
-                    departure: this.flightForm.controls.departure.value,
-                    duration: this.flightForm.controls.duration.value
-                };
-                this.flightService.updateFlight(this.flightId, data)
+                let departureTime = this.formatTime(this.flightForm.controls.departureTime.value)
+                    .toString()
+                    .split(':');
+                let departure = new Date(this.flightForm.controls.departure.value);
+                let duration = this.formatTime(this.flightForm.controls.duration.value);
+
+                departure.setUTCHours(Number.parseInt(departureTime[0]), Number.parseInt(departureTime[1]));
+
+                let flightData = { departure, duration };
+
+                this.flightService.updateFlight(this.flightId, flightData)
                     .subscribe(res => {
                         this.notificationService.success('Flight updated successfully');
                         this.router.navigate(['/flights']);
                     });
             } else {
-                let data = { originAirportInfo: this.fromAirportInfo, destinationAirportInfo: this.toAirportInfo, ...this.flightForm.value }
+                let flightData = {
+                    originAirportInfo: this.fromAirportInfo,
+                    destinationAirportInfo: this.toAirportInfo,
+                    ...this.flightForm.value
+                }
+
+                let departureTime = this.formatTime(this.flightForm.controls.departureTime.value)
+                    .toString()
+                    .split(':');
+                let departureDateTime = new Date(flightData.departure);
+
+                departureDateTime.setUTCHours(Number.parseInt(departureTime[0]), Number.parseInt(departureTime[1]));
+
+                flightData.departure = departureDateTime;
+                flightData.duration = this.formatTime(flightData.duration);
 
                 this.flightService
-                    .createFlight(data)
+                    .createFlight(flightData)
                     .subscribe((res: Response) => {
                         this.notificationService.success('Flight created successfully');
                         this.router.navigate(['/flights']);
@@ -116,15 +136,16 @@ export class FlightFormComponent implements OnInit {
                 if (isFromSelect) {
                     this.fromAirports = data;
 
-                    if (data.length == 0) {
+                    if (data.length === 0) {
                         this.flightForm.get('from').reset();
                     }
                 } else {
 
                     this.toAirports = data;
 
-                    if (data.length == 0)
+                    if (data.length === 0) {
                         this.flightForm.get('to').reset();
+                    }
                 }
             });
     }
@@ -138,11 +159,38 @@ export class FlightFormComponent implements OnInit {
         }
     }
 
+    formatTime(value: number | null) {
+        const decimalPart = +value.toString().replace(/^[^\.]+/, '0');
+        let mmPart = (decimalPart * 60).toString();
+
+        if (mmPart.length === 1) {
+            mmPart = mmPart + '0';
+        }
+
+        let hhPart = value.toFixed(2).split('.').pop();
+
+        if (hhPart.length === 1) {
+            hhPart = '0' + hhPart;
+        }
+
+        return hhPart + ':' + mmPart;
+    }
+
+    stringToTime(value) {
+        const splitedTime = value.slice(0, 5).split(':');
+        const hours = +splitedTime[0];
+        const minutes = 1 / (60 / +splitedTime[1]);
+
+        return hours + minutes;
+    }
 }
 
 export class SameValueEStateMatcher implements ErrorStateMatcher {
     isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-        return (control && control.parent.get('from').value != '' && control.parent.get('to').value !== '' && control.parent.get('from').value === control.parent.get('to').value)
+        return (control &&
+            control.parent.get('from').value !== '' &&
+            control.parent.get('to').value !== '' &&
+            control.parent.get('from').value === control.parent.get('to').value);
     }
 }
 
@@ -150,5 +198,7 @@ export function SameValueValidator(group: FormGroup) {
     const from = group.controls.from.value;
     const to = group.controls.to.value;
 
-    return from === to ? { valuesAreSame: true } : null
+    return from === to
+        ? { valuesAreSame: true }
+        : null
 }

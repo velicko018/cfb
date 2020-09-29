@@ -1,5 +1,4 @@
-﻿using CFB.Common.DTOs;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace CFB.Domain.Queries
@@ -10,5 +9,6 @@ namespace CFB.Domain.Queries
         public string To { get; set; }
         public DateTime Departure { get; set; }
         public DateTime Return { get; set; }
+        public int NumberOfStops { get; set; }
     }
 }

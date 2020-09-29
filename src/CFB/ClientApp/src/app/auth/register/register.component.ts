@@ -4,7 +4,7 @@ import { ErrorStateMatcher } from '@angular/material';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
-import { AccountService } from '@/core/services';
+import { AccountService, JwtTokenService } from '@/core/services';
 import { NotificationService } from '@/shared/services/notification.service';
 
 @Component({
@@ -20,7 +20,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
     constructor(private router: Router,
         private notificationService: NotificationService,
-        private accountService: AccountService) {
+        private accountService: AccountService,
+        private jwtTokenService: JwtTokenService) {
         this.hide = true;
     }
 
@@ -50,6 +51,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
                 .register(this.registerForm.value)
                 .subscribe(result => {
                     this.notificationService.success('User registered successfully.');
+                    localStorage.setItem('role', this.jwtTokenService.getRole(result.accessToken));
                     localStorage.setItem('accessToken', result.accessToken);
                     localStorage.setItem('refreshToken', result.refreshToken);
                     localStorage.setItem('expiration', JSON.stringify(result.expiration));

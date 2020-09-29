@@ -36,6 +36,7 @@ export class HomeComponent implements OnInit {
             from: new FormControl('', Validators.required),
             to: new FormControl('', Validators.required),
             departure: new FormControl('', Validators.required),
+            numberOfStops: new FormControl(1)
         });
     }
 
@@ -55,13 +56,13 @@ export class HomeComponent implements OnInit {
                 if (isFromSelect) {
                     this.fromAirports = data;
 
-                    if (data.length == 0) {
+                    if (data.length === 0) {
                         this.searchForm.get('from').reset();
                     }
                 } else {
                     this.toAirports = data;
 
-                    if (data.length == 0)
+                    if (data.length === 0)
                         this.searchForm.get('to').reset();
                 }
             });
@@ -71,7 +72,7 @@ export class HomeComponent implements OnInit {
         this.router.navigate(['/bookings/create']);
     }
 
-    public search() {
+    search() {
         if (this.searchForm.valid) {
             this.showProgressBar = true;
             this.flightService.search(this.searchForm.value)

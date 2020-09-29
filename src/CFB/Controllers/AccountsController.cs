@@ -90,7 +90,7 @@ namespace CFB.Controllers
 
             if (token is null)
             {
-                return BadRequest();
+                return BadRequest("Unable to refresh token.");
             }
 
             return Ok(token);

@@ -112,7 +112,8 @@ namespace CFB.Application.Services
                 From = flightSearchDto.From,
                 To = flightSearchDto.To,
                 Departure = flightSearchDto.Departure,
-                Return = flightSearchDto.Return
+                Return = flightSearchDto.Return,
+                NumberOfStops = flightSearchDto.NumberOfStops
             };
             var flights = await _queryDispatcher.Dispatch(flightSearchQuery);
 
