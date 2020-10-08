@@ -40,8 +40,19 @@ namespace CFB.Application.QueryHandlers
 
             if (flightSearchQuery.NumberOfStops != -1)
             {
-                journays = journays.Where(j => j.Count <= flightSearchQuery.NumberOfStops + 1)
-                    .ToList();
+                var journaysEnumarable = journays.Where(j => j.Count <= flightSearchQuery.NumberOfStops + 1);
+
+                if (!string.IsNullOrWhiteSpace(flightSearchQuery.FirstStop))
+                {
+                    journaysEnumarable = journaysEnumarable.Where(j => j.First().To == flightSearchQuery.FirstStop);
+
+                    if (!string.IsNullOrWhiteSpace(flightSearchQuery.SecondStop))
+                    {
+                        journaysEnumarable = journaysEnumarable.Where(j => j.Skip(1).First().From == flightSearchQuery.FirstStop);
+                    }
+                }
+
+                journays = journaysEnumarable.ToList();
             }
 
             foreach (var flights in journays)

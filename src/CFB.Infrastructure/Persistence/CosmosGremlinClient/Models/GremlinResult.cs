@@ -40,7 +40,15 @@ namespace CFB.Infrastructure.Persistence.CosmosGremlinClient.Models
         {
             Result = resultSet
                 .Select(token => token.ToObject<IReadOnlyCollection<T>>(new JsonSerializer()))
-                .First();
+                .Aggregate(new List<T>(), (current, next) => 
+                {
+                    if (next.Count > 0)
+                    {
+                        return current.Concat(next).ToList();
+                    }
+
+                    return current;
+                });
         }
 
         public List<T> ToList<T>() 

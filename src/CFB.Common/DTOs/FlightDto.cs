@@ -29,6 +29,8 @@ namespace CFB.Common.DTOs
         public DateTime Return { get; set; }
 
         public int NumberOfStops { get; set; }
+        public string FirstStop { get; set; }
+        public string SecondStop { get; set; }
     }
 
     public class CreateFlightDto

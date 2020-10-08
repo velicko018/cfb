@@ -1,9 +1,13 @@
 <main class="home-container" fxLayout="column" fxLayoutAlign="center center">
-    <mat-card fxLayout="column" fxFlex="70">
+    <mat-card fxLayout="column" fxFlex="50">
+        <mat-card-header>
+            <mat-card-title>Travel is never a matter of money, but of courage.</mat-card-title>
+            <mat-card-subtitle>Pick up your flight today.</mat-card-subtitle>
+        </mat-card-header>
         <form [formGroup]="searchForm" (ngSubmit)="search()">
             <mat-card-content fxLayoutGap="20px">
                 <mat-form-field>
-                    <mat-select placeholder="State" formControlName="stateFrom" (selectionChange)="onStateChange($event)">
+                    <mat-select placeholder="State" formControlName="stateFrom" (selectionChange)="onStateChange($event, 'from')">
                         <mat-option *ngFor="let state of states" [value]="state">{{state}}</mat-option>
                     </mat-select>
                     <mat-error *ngIf="hasError('stateFrom', 'required')">
@@ -13,7 +17,7 @@
 
                 <mat-form-field>
                     <mat-select placeholder="From" formControlName="from" [errorStateMatcher]="sameValueMatcher">
-                        <mat-option *ngFor="let fromAirport of fromAirports" [value]="fromAirport.id">{{fromAirport.name}} - {{fromAirport.city}} ({{fromAirport.icao}})</mat-option>
+                        <mat-option *ngFor="let fromAirport of airports['from']" [value]="fromAirport.id">{{fromAirport.name}} - {{fromAirport.city}} ({{fromAirport.icao}})</mat-option>
                     </mat-select>
                     <mat-error *ngIf="hasError('from', 'required')">
                         From is <strong>required</strong>
@@ -21,7 +25,7 @@
                 </mat-form-field>
 
                 <mat-form-field>
-                    <mat-select placeholder="State to" formControlName="stateTo" (selectionChange)="onStateChange($event, false)">
+                    <mat-select placeholder="State to" formControlName="stateTo" (selectionChange)="onStateChange($event, 'to')">
                         <mat-option *ngFor="let state of states" [value]="state">{{state}}</mat-option>
                     </mat-select>
                     <mat-error *ngIf="hasError('stateTo', 'required')">
@@ -31,7 +35,7 @@
 
                 <mat-form-field>
                     <mat-select placeholder="To" formControlName="to" [errorStateMatcher]="sameValueMatcher">
-                        <mat-option *ngFor="let toAirport of toAirports" [value]="toAirport.id">{{toAirport.name}} - {{toAirport.city}} ({{toAirport.icao}})</mat-option>
+                        <mat-option *ngFor="let toAirport of airports['to']" [value]="toAirport.id">{{toAirport.name}} - {{toAirport.city}} ({{toAirport.icao}})</mat-option>
                     </mat-select>
                     <mat-error *ngIf="hasError('to', 'required')">
                         Destination is <strong>required</strong>
@@ -52,13 +56,60 @@
                 </mat-form-field>
 
                 <mat-form-field>
-                    <mat-select placeholder="Number of stops" formControlName="numberOfStops">
+                    <mat-select placeholder="Number of stops" formControlName="numberOfStops" (selectionChange)="onStopChange($event)">
                         <mat-option [value]="-1">Any</mat-option>
                         <mat-option [value]="0">Nonstop (direct)</mat-option>
                         <mat-option [value]="1">Up to 1 stop</mat-option>
                         <mat-option [value]="2">Up to 2 stops</mat-option>
+                        <mat-option [value]="3">Custom stops</mat-option>
                     </mat-select>
                 </mat-form-field>
+
+                <mat-form-field *ngIf="showCustomStop">
+                    <mat-label>Number of stops</mat-label>
+                    <input matInput type="number" formControlName="customStop" min="0">
+                </mat-form-field>
+
+                <div fxLayoutGap="20px">
+                    <mat-card *ngIf="showFirstStop || showSecondStop" fxFlex="50">
+                        <mat-card-header>
+                            <mat-card-title>First stop</mat-card-title>
+                        </mat-card-header>
+                        <mat-card-content fxLayoutGap="20px">
+                            <mat-form-field>
+                                <mat-select placeholder="State" (selectionChange)="onStateChange($event, 'firstStop')">
+                                    <mat-option *ngFor="let state of states" [value]="state">{{state}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                            <mat-form-field>
+                                <mat-select placeholder="First stop airport" formControlName="firstStop" [errorStateMatcher]="sameValueMatcher">
+                                    <mat-option *ngFor="let firstStopAirport of airports['firstStop']" [value]="firstStopAirport.id">{{firstStopAirport.name}} - {{firstStopAirport.city}} ({{firstStopAirport.icao}})</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </mat-card-content>
+                    </mat-card>
+
+                    <mat-card *ngIf="showSecondStop" fxFlex="50">
+                        <mat-card-header>
+                            <mat-card-title>Second stop</mat-card-title>
+                        </mat-card-header>
+                        <mat-card-content fxLayoutGap="20px">
+                            <mat-form-field>
+                                <mat-select placeholder="State" (selectionChange)="onStateChange($event, 'secondStop')">
+                                    <mat-option *ngFor="let state of states" [value]="state">{{state}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                            <mat-form-field>
+                                <mat-select placeholder="Second stop airport" formControlName="secondStop" [errorStateMatcher]="sameValueMatcher">
+                                    <mat-option *ngFor="let secondStopAirport of airports['secondStop']" [value]="secondStopAirport.id">{{secondStopAirport.name}} - {{secondStopAirport.city}} ({{secondStopAirport.icao}})</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+                
 
             </mat-card-content>
             <mat-card-actions fxLayoutAlign="end">

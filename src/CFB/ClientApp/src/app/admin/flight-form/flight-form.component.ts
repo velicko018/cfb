@@ -167,7 +167,7 @@ export class FlightFormComponent implements OnInit {
             mmPart = mmPart + '0';
         }
 
-        let hhPart = value.toFixed(2).split('.').pop();
+        let hhPart = value.toFixed(2).split('.').shift();
 
         if (hhPart.length === 1) {
             hhPart = '0' + hhPart;
