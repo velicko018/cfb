@@ -1,10 +1,10 @@
-import { Component, AfterViewInit, ViewChild, Inject } from '@angular/core';
-import { MatPaginator, MatSort, MatDialog, MAT_DIALOG_DATA, MatTableDataSource, MatSnackBar } from '@angular/material';
+import { Component, AfterViewInit, ViewChild } from '@angular/core';
+import { MatPaginator, MatSort, MatDialog, MatTableDataSource, MatSnackBar } from '@angular/material';
 import { merge, of as observableOf } from 'rxjs';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
-import { ModalComponent } from '../../shared/components/modal/modal.component';
-import { User, PaginatedUsers } from '../../core/models';
-import { UserService } from '../../core/services';
+import { ModalComponent } from '@/shared/components/modal/modal.component';
+import { User, PaginatedUsers } from '@/core/models';
+import { UserService } from '@/core/services';
 
 @Component({
     selector: 'app-users-component',
@@ -60,9 +60,9 @@ export class UsersComponent implements AfterViewInit {
         });
         dialogRef.componentInstance.yesClicked$
             .subscribe(result => {
-                if (result == true) {
+                if (result === true) {
                     this.userService.deleteUser(id)
-                        .subscribe((res: Response) => {
+                        .subscribe(() => {
                             this.dataSource.data.splice(this.data.findIndex(u => u.id == id), 1);
                             this.resultsLength--;
                             this.dataSource._updateChangeSubscription();
@@ -77,7 +77,6 @@ export class UsersComponent implements AfterViewInit {
                                 panelClass: ['success'],
                             })
                         });
-                    
                 }
             });
     }

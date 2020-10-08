@@ -17,6 +17,8 @@ export class AirportFormComponent implements OnInit {
     airportId: string;
     title: string;
     states: string[] = [];
+    file;
+    base64image;
 
     constructor(private router: Router,
         private route: ActivatedRoute,
@@ -37,29 +39,57 @@ export class AirportFormComponent implements OnInit {
             latitude: new FormControl('', Validators.required),
             longitude: new FormControl('', Validators.required),
             iata: new FormControl('', Validators.required),
-            icao: new FormControl('', Validators.required)
+            icao: new FormControl('', Validators.required),
         });
 
         if (this.airportId) {
-            this.airportService.getAirport(this.airportId).subscribe(data => this.airportForm.patchValue(data));
+            this.airportService
+                .getAirport(this.airportId)
+                .subscribe(data => this.airportForm.patchValue(data));
         }
 
     }
 
+    uploadFile(event) {
+        this.file = event[0];
+        const fileReader = new FileReader();
+        fileReader.onload = () => {
+            this.base64image = fileReader.result;
+        };
+
+        fileReader.readAsDataURL(this.file);
+    }
+
+    deleteFile() {
+        this.file = null;
+        this.base64image = null;
+    }
+
     submit() {
         if (this.airportForm.valid) {
+            const formData = new FormData();
+
+            formData.append('image', this.file);
+            formData.append('name', this.airportForm.value.name)
+            formData.append('city', this.airportForm.value.city)
+            formData.append('state', this.airportForm.value.state)
+            formData.append('latitude', this.airportForm.value.latitude)
+            formData.append('longitude', this.airportForm.value.longitude)
+            formData.append('iata', this.airportForm.value.iata)
+            formData.append('icao', this.airportForm.value.icao)
+
             if (this.airportId) {
                 this.airportService
-                    .updateAirport(this.airportId, this.airportForm.value)
-                    .subscribe((res: Response) => {
+                    .updateAirport(this.airportId, formData)
+                    .subscribe(() => {
                         this.notificationService
                             .success('Airport updated successfully');
                         this.router.navigate(['/airports']);
                     });
             } else {
                 this.airportService
-                    .createAirport(this.airportForm.value)
-                    .subscribe((res: Response) => {
+                    .createAirport(formData)
+                    .subscribe(() => {
                         this.notificationService
                             .success('Airport created successfully');
                         this.router.navigate(['/airports']);

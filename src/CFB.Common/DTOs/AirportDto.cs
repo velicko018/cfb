@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -45,6 +46,8 @@ namespace CFB.Common.DTOs
         [Required]
         [JsonProperty("icao")]
         public string ICAO { get; set; }
+
+        public IFormFile Image { get; set; }
     }
 
     public class CreateAirportDto
@@ -76,5 +79,7 @@ namespace CFB.Common.DTOs
         [Required]
         [JsonProperty("longitude")]
         public double Longitude { get; set; }
+
+        public IFormFile Image { get; set; }
     }
 }

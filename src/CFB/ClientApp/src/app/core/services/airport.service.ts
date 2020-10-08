@@ -24,16 +24,15 @@ export class AirportService {
         return this.http.get<Airport[]>(this.baseUrl + `api/airports/search?state=${state}`);
     }
 
-    createAirport(airport: Airport) {
+    createAirport(airport: any) {
         return this.http.post(this.baseUrl + 'api/airports', airport);
     }
 
-    updateAirport(airportId: string, airport: Airport) {
+    updateAirport(airportId: string, airport: any) {
         return this.http.put(this.baseUrl + 'api/airports/' + airportId, airport);
     }
 
     deleteAirport(airportId: string) {
         return this.http.delete(this.baseUrl + 'api/airports/' + airportId);
     }
-
 }

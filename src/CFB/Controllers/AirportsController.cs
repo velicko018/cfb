@@ -59,7 +59,7 @@ namespace CFB.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> CreateAirport(CreateAirportDto createAirportDto)
+        public async Task<IActionResult> CreateAirport([FromForm] CreateAirportDto createAirportDto)
         {
             if (!ModelState.IsValid)
             {
@@ -79,7 +79,7 @@ namespace CFB.Controllers
         [HttpPut("{airportId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> UpdateAirport(Guid airportId, AirportDto updateAirportDto)
+        public async Task<IActionResult> UpdateAirport(Guid airportId, [FromForm] AirportDto updateAirportDto)
         {
             if (!ModelState.IsValid)
             {

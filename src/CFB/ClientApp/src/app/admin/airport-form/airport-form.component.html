@@ -59,6 +59,31 @@
                         IATA is <strong>required</strong>
                     </mat-error>
                 </mat-form-field>
+
+                <mat-card appDragDrop (onFileDropped)="uploadFile($event)">
+                    <mat-card-title *ngIf="!base64image">
+                        <span class="material-icons md-36">
+                            cloud_upload
+                        </span>
+                        <br />
+                        Drop a file here
+                        <br />
+                        - or -
+                        <br />
+                        <input type="file" #file placeholder="Choose file" (change)="uploadFile(file.files)" style="display:none;">
+                        <button mat-raised-button color="primary" type="button" (click)="file.click()">Browse files</button>
+                    </mat-card-title>
+                    <mat-card-subtitle *ngIf="base64image">Image preview</mat-card-subtitle>
+                    <mat-card-content fxLayout="column wrap"
+                                      fxLayoutAlign="center center"
+                                      *ngIf="base64image">                        
+                        <img mat-card-image [src]="base64image">
+                        <button mat-mini-fab color="primary" type="button" (click)="deleteFile()">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </mat-card-content>
+                </mat-card>           
+
             </mat-card-content>
             <mat-card-actions>
                 <button mat-raised-button color="primary" [disabled]="!airportForm.valid">Submit</button>

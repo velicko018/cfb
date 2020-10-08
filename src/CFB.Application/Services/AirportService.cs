@@ -28,19 +28,22 @@ namespace CFB.Application.Services
         private readonly CommandDispatcher _commandDispatcher;
         private readonly QueryDispatcher _queryDispatcher;
         private readonly IMemoryCache _memoryCache;
+        private readonly IStorageService _storageService;
 
-        public AirportService(CommandDispatcher commandDispatcher, QueryDispatcher queryDispatcher, IMemoryCache memoryCache)
+        public AirportService(CommandDispatcher commandDispatcher, QueryDispatcher queryDispatcher, IMemoryCache memoryCache, IStorageService storageService)
         {
             _commandDispatcher = commandDispatcher;
             _queryDispatcher = queryDispatcher;
             _memoryCache = memoryCache;
+            _storageService = storageService;
         }
 
         public async Task<Result> CreateAirportAsync(CreateAirportDto createAirportDto)
         {
+            var airportId = Guid.NewGuid();
             var createAirportCommand = new CreateAirportCommand
             {
-                Id = Guid.NewGuid(),
+                Id = airportId,
                 Name = createAirportDto.Name,
                 City = createAirportDto.City,
                 State = createAirportDto.State,
@@ -56,6 +59,11 @@ namespace CFB.Application.Services
             {
                 _memoryCache.TryGetValue(CacheKeys.Airports, out long numberOfAirports);
                 _memoryCache.Set(CacheKeys.Airports, ++numberOfAirports);
+
+                if (createAirportDto.Image != null)
+                {
+                    await _storageService.UploadAsync(createAirportDto.Image, airportId.ToString());
+                }
             }
 
             return result;
@@ -72,6 +80,7 @@ namespace CFB.Application.Services
 
             if (result.IsSuccess)
             {
+                await _storageService.DeleteAsync(airportId.ToString());
                 _memoryCache.TryGetValue(CacheKeys.Airports, out long numberOfAirports);
                 _memoryCache.Set(CacheKeys.Airports, --numberOfAirports);
             }
@@ -88,7 +97,7 @@ namespace CFB.Application.Services
 
             var airport = await _queryDispatcher.Dispatch(getAirportQuery);
 
-            return airport ?? null;
+            return airport;
         }
 
         public async Task<IEnumerable<AirportDto>> GetAirportsByStateAsync(string state)
@@ -142,6 +151,11 @@ namespace CFB.Application.Services
             };
 
             var result = await _commandDispatcher.Dispatch(updateAirportCommand);
+
+            if (result.IsSuccess && airportDto.Image != null)
+            {
+                await _storageService.UploadAsync(airportDto.Image, airportId.ToString());
+            }
 
             return result;
         }

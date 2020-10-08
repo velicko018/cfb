@@ -14,6 +14,7 @@ namespace CFB.Application.Extensions
             services.AddScoped<IAirportService, AirportService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IBookingService, BookingService>();
+            services.AddScoped<IStorageService, StorageService>();
 
             return services;
         }

@@ -6,10 +6,12 @@ import { FlexLayoutModule } from "@angular/flex-layout";
 import { MaterialModule } from "./material.module";
 import { ModalComponent } from "./components/modal/modal.component";
 import { AuthGuard } from "./guards/auth.guard";
+import { DragDropDirective } from "./directives/drag-drop.directive";
 
 @NgModule({
     declarations: [
-        ModalComponent
+        ModalComponent,
+        DragDropDirective
     ],
     entryComponents: [
         ModalComponent
@@ -26,7 +28,8 @@ import { AuthGuard } from "./guards/auth.guard";
         FlexLayoutModule,
         FormsModule,
         ReactiveFormsModule,
-        MaterialModule
+        MaterialModule,
+        DragDropDirective
     ],
     providers: [
         AuthGuard

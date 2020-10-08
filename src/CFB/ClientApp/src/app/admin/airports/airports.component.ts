@@ -80,7 +80,7 @@ export class AirportsComponent implements AfterViewInit, OnInit, OnDestroy {
         });
         dialogRef.componentInstance.yesClicked$
             .subscribe(result => {
-                if (result == true) {
+                if (result === true) {
                     this.subscription.add(this.airportService.deleteAirport(id)
                         .subscribe(() => {
                             this.dataSource.data.splice(this.dataSource.data.findIndex(u => u.id == id), 1);
@@ -94,10 +94,9 @@ export class AirportsComponent implements AfterViewInit, OnInit, OnDestroy {
                                 .success('Airport deleted successfully');
                         })
                     );
-
                 }
             }, error => {
                 console.log(error);
-            }).unsubscribe();
+            });
     }
 }
